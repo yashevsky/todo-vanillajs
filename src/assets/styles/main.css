@@ -28,6 +28,9 @@ body {
 .todo-list {
     list-style: none;
     margin-bottom: 50px;
+}
+
+.todo-list__item {
     padding: 4px 8px;
     background: #edd3fe;
     border: 1px solid brown;
