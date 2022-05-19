@@ -1,3 +1,5 @@
+import { fetchTodos } from './api'
+
 const input: HTMLInputElement = document.querySelector('#input')
 const button = document.querySelector('#button')
 const list = document.querySelector('#todo-list')
@@ -36,3 +38,7 @@ const createElements = (value: string) => {
     list.appendChild(li)
     total.textContent = counter.toString()
 }
+
+fetchTodos.then((response) =>
+    response.forEach((element) => createElements(element.title)),
+)
