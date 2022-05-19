@@ -32,7 +32,7 @@ const createElements = (value: string) => {
         target.classList.toggle('active')
     })
 
-    li.appendChild(btn)
-    list.appendChild(li)
+    li.insertBefore(btn, li.firstChild)
+    list.insertBefore(li, list.firstChild)
     total.textContent = counter.toString()
 }
