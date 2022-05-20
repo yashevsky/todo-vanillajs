@@ -32,7 +32,12 @@ const createElements = (value: string) => {
         target.classList.toggle('active')
     })
 
-    li.insertBefore(btn, li.firstChild)
+    li.appendChild(btn)
     list.insertBefore(li, list.firstChild)
     total.textContent = counter.toString()
 }
+document.addEventListener('keyup', (e: any) => {
+    if (e.keyCode === 13) {
+        document.getElementById('button').click()
+    }
+})
