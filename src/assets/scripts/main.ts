@@ -36,8 +36,9 @@ const createElements = (value: string) => {
     list.insertBefore(li, list.firstChild)
     total.textContent = counter.toString()
 }
-document.addEventListener('keyup', (e: any) => {
+input.addEventListener('keyup', (e: any) => {
     if (e.keyCode === 13) {
-        document.getElementById('button').click()
+        createElements(input.value)
+        input.value = ''
     }
 })
