@@ -35,9 +35,16 @@ const createElements = (value: string) => {
     })
 
     li.appendChild(btn)
-    list.appendChild(li)
+    list.insertBefore(li, list.firstChild)
     total.textContent = counter.toString()
 }
+
+input.addEventListener('keyup', (e: any) => {
+    if (e.keyCode === 13) {
+        createElements(input.value)
+        input.value = ''
+    }
+})
 
 fetchTodos.then((response) =>
     response.forEach((element) => createElements(element.title)),
