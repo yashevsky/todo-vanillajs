@@ -1,10 +1,11 @@
-import { fetchTodos } from './api'
-import type { changeCounterType, createElementType } from './types'
+import { closeModal, isModalOpened, openModal } from './modal'
+import type { changeCounterType } from './types'
 
 const input: HTMLInputElement = document.querySelector('#input')
 const button = document.querySelector('#button')
 const list = document.querySelector('#todo-list')
 const total = document.querySelector('#total')
+
 let counter = 0
 
 const isInputEmpty = () => {
@@ -22,6 +23,13 @@ button.addEventListener('click', () => {
         createElements(input.value)
         input.value = ''
     }
+    openModal()
+})
+
+document.addEventListener('keyup', (e: KeyboardEvent) => {
+    if (isModalOpened) {
+        if (e.code === 'Escape') closeModal()
+    } else return
 })
 
 const changeCounter: (type: changeCounterType) => void = (type) => {
@@ -52,6 +60,7 @@ const createElements = (value: string) => {
         changeCounter('dec')
         list.removeChild(li)
         total.textContent = counter.toString()
+        openModal()
     })
 
     li.addEventListener('click', (event: Event) => {
@@ -82,41 +91,5 @@ input.addEventListener('keyup', (e: KeyboardEvent) => {
         createElements(input.value)
         input.value = ''
     }
+    openModal()
 })
-
-class todoList {
-    constructor() {}
-    add(value: string) {
-        changeCounter('inc')
-
-        const li = createElement('li')
-        const btn = createElement('button')
-
-        li.className = 'todo-list__item'
-        li.textContent = value
-        btn.className = 'button'
-        btn.textContent = 'remove'
-
-        li.appendChild(btn)
-        list.insertBefore(li, list.firstChild)
-        total.textContent = counter.toString()
-    }
-    createElement(tag: createElementType) {
-        let res
-        switch (tag) {
-            case 'li':
-                res = document.createElement(tag)
-                break
-            case 'button':
-                res = document.createElement(tag)
-                break
-        }
-        return res
-    }
-    remove() {}
-}
-
-// создаем элементы
-/*fetchTodos.then((response) =>
-    response.forEach((element) => createElements(element.title)),
-)*/
