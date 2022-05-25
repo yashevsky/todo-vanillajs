@@ -8,29 +8,7 @@ const total = document.querySelector('#total')
 
 let counter = 0
 
-const isInputEmpty = () => {
-    let result = true
-    if (input.value === '') {
-        result = true
-    } else {
-        result = false
-    }
-    return result
-}
-
-button.addEventListener('click', () => {
-    if (!isInputEmpty()) {
-        createElements(input.value)
-        input.value = ''
-    }
-    openModal()
-})
-
-document.addEventListener('keyup', (e: KeyboardEvent) => {
-    if (isModalOpened) {
-        if (e.code === 'Escape') closeModal()
-    } else return
-})
+const isInputEmpty = () => input.value === ''
 
 const changeCounter: (type: changeCounterType) => void = (type) => {
     switch (type) {
@@ -60,7 +38,7 @@ const createElements = (value: string) => {
         changeCounter('dec')
         list.removeChild(li)
         total.textContent = counter.toString()
-        openModal()
+        openModal('Вы удалили задачу!')
     })
 
     li.addEventListener('click', (event: Event) => {
@@ -90,6 +68,20 @@ input.addEventListener('keyup', (e: KeyboardEvent) => {
     if (e.code === 'Enter' && !isInputEmpty()) {
         createElements(input.value)
         input.value = ''
+        openModal('Добавлена задача!')
     }
-    openModal()
+})
+
+document.addEventListener('keyup', (e: KeyboardEvent) => {
+    if (isModalOpened) {
+        if (e.code === 'Escape') closeModal()
+    } else return
+})
+
+button.addEventListener('click', () => {
+    if (!isInputEmpty()) {
+        createElements(input.value)
+        input.value = ''
+        openModal('Добавлена задача!')
+    }
 })

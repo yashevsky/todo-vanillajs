@@ -8,8 +8,9 @@ const initialState = {
 
 export let { isModalOpened } = initialState
 
-export const openModal = () => {
+export const openModal = (text: string) => {
     modal.classList.add(modalActiveClass)
+    modalContent.innerHTML = text
     isModalOpened = true
 }
 

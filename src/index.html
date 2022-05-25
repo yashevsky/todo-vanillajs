@@ -11,17 +11,19 @@
 <body>
     <div class="wrap">
         <div class="panel">
-            <input type="text" class="input" id="input">
+            <input aria-label="input" type="text" class="input" id="input">
             <button type="button" class="button" id="button">
                 Создать
             </button>
         </div>
-        <div class="modal" id="modal"><div class="modal-content" id="modal-content"></div>
         <div>
             Total:
             <span id="total"></span>
         </div>
         <ul class="todo-list" id="todo-list"></ul>
+        <div class="modal" id="modal">
+            <div class="modal-content" id="modal-content"></div>
+        </div>
     </div>
 </body>
 
