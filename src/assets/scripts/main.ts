@@ -1,6 +1,8 @@
 import { closeModal, isModalOpened, openModal } from './modal'
 import type { changeCounterType, TodoType } from './types'
 
+const { localStorage } = window
+
 const input: HTMLInputElement = document.querySelector('#input')
 const button = document.querySelector('#button')
 const list = document.querySelector('#todo-list')
@@ -8,9 +10,11 @@ const total = document.querySelector('#total')
 
 let counter = 0
 
-const todoArr: TodoType[] = []
+type todoArr = TodoType[] | undefined
 
-const { localStorage } = window
+let todoArr: todoArr = localStorage.getItem('todoItems')
+    ? JSON.parse(localStorage.getItem('todoItems'))
+    : []
 
 const isInputEmpty = () => input.value === ''
 
@@ -43,8 +47,8 @@ const createElements = (value: string) => {
         list.removeChild(li)
         total.textContent = counter.toString()
         // нужно записывать не в рез а в тудуАрр
-        const res = todoArr.filter((item) => item !== value.toLowerCase())
-        console.log(res)
+        todoArr = todoArr.filter((item) => item !== value.toLowerCase())
+        localStorage.setItem('todoItems', JSON.stringify(todoArr))
         openModal('Вы удалили задачу!')
     })
 
@@ -99,12 +103,10 @@ input.addEventListener('keyup', (e: KeyboardEvent) => {
         openModal('Добавлена задача!')
     }
 })
-const items = localStorage.getItem('todoItems')
+if (localStorage.getItem('todoItems')) {
+    const arr = Array.from(JSON.parse(localStorage.getItem('todoItems')))
 
-if (items) {
-    const arr = JSON.parse(items)
-
-    arr.forEach((element: string) => {
+    arr.reverse().forEach((element: string) => {
         createElements(element)
     })
 }
