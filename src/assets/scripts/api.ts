@@ -1,9 +1,5 @@
-type TodoType = {
-    userId: number
-    id: number
-    title: string
-    compelted: boolean
-}
+import type { TodoType } from './types'
+
 const response = fetch('https://jsonplaceholder.typicode.com/todos')
 const todoAmount = 10
 

@@ -1,5 +1,5 @@
 import { closeModal, isModalOpened, openModal } from './modal'
-import type { changeCounterType } from './types'
+import type { changeCounterType, TodoType } from './types'
 
 const input: HTMLInputElement = document.querySelector('#input')
 const button = document.querySelector('#button')
@@ -7,6 +7,10 @@ const list = document.querySelector('#todo-list')
 const total = document.querySelector('#total')
 
 let counter = 0
+
+const todoArr: TodoType[] = []
+
+const { localStorage } = window
 
 const isInputEmpty = () => input.value === ''
 
@@ -38,6 +42,9 @@ const createElements = (value: string) => {
         changeCounter('dec')
         list.removeChild(li)
         total.textContent = counter.toString()
+        // нужно записывать не в рез а в тудуАрр
+        const res = todoArr.filter((item) => item !== value.toLowerCase())
+        console.log(res)
         openModal('Вы удалили задачу!')
     })
 
@@ -64,13 +71,7 @@ const createElement = (tag: any) => {
     return res
 }
 
-input.addEventListener('keyup', (e: KeyboardEvent) => {
-    if (e.code === 'Enter' && !isInputEmpty()) {
-        createElements(input.value)
-        input.value = ''
-        openModal('Добавлена задача!')
-    }
-})
+// close modal
 
 document.addEventListener('keyup', (e: KeyboardEvent) => {
     if (isModalOpened) {
@@ -78,10 +79,32 @@ document.addEventListener('keyup', (e: KeyboardEvent) => {
     } else return
 })
 
+// add todo
 button.addEventListener('click', () => {
     if (!isInputEmpty()) {
         createElements(input.value)
+        todoArr.unshift(input.value)
+        localStorage.setItem('todoItems', JSON.stringify(todoArr))
         input.value = ''
         openModal('Добавлена задача!')
     }
 })
+
+input.addEventListener('keyup', (e: KeyboardEvent) => {
+    if (e.code === 'Enter' && !isInputEmpty()) {
+        createElements(input.value)
+        todoArr.unshift(input.value)
+        localStorage.setItem('todoItems', JSON.stringify(todoArr))
+        input.value = ''
+        openModal('Добавлена задача!')
+    }
+})
+const items = localStorage.getItem('todoItems')
+
+if (items) {
+    const arr = JSON.parse(items)
+
+    arr.forEach((element: string) => {
+        createElements(element)
+    })
+}
